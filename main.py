@@ -8,9 +8,10 @@ import socket
 import binascii
 import struct
 import ubinascii
+import pycom
 
 # package header, B: 1 byte for deviceID, I: 1 byte for int
-CODE_VERSION = 1.4
+CODE_VERSION = 1.5
 _LORA_PKG_FORMAT = "BI"
 DEVICE_ID = 0x01
 # Max Value from Sensor when 100% wet
@@ -21,7 +22,7 @@ FREQ = 915000000
 APP_EUI_KEY = '70B3D57ED0039C31'
 APP_KEY_VALUE = '84E5C11D9E3CD113A5E38AD6742F9C39'
 
-READING_FREQ_IN_MIN = 2   # Hopefully 2 mins
+READING_FREQ_IN_MIN = 5   # Hopefully 2 mins
 # READING_FREQ_IN_MIN = 0.01   # 1  min
 
 def setup_adc():
@@ -93,12 +94,23 @@ def main():
     # lora = setup_single_lora_channel(lora)
     lora.nvram_restore()
 
+    # disable LED Heartbeat (so we can control the LED)
+    pycom.heartbeat(False)
+    # Set LED to RED
+    pycom.rgbled(0x7f0000)
+
     if not lora.has_joined():
         #  join_via_abp(lora)
         join_via_otaa(lora)
         while not lora.has_joined():
             utime.sleep(2.5)
             print('Not yet joined...')
+            if utime.time() > 150:
+                print("Possible Timeout")
+                machine.reset()
+            pass
+        # We are Online set LED to Green
+        pycom.rgbled(0x007f00)
         print('Join successful Getting ready to send!')
     else:
         print('Lora already established')
