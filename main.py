@@ -10,20 +10,18 @@ import struct
 import ubinascii
 import pycom
 
+# READING_FREQ_IN_MIN = 5   # equals 20 mins
+READING_FREQ_IN_MIN = 2   # equals 4 mins
+# READING_FREQ_IN_MIN = 0.01   # 1  min
 # package header, B: 1 byte for deviceID, I: 1 byte for int
 CODE_VERSION = 1.5
 _LORA_PKG_FORMAT = "BI"
 DEVICE_ID = 0x01
 # Max Value from Sensor when 100% wet
 SENSOR_100 = 720
-
 # LoRa constants
 APP_EUI_KEY = '70B3D57ED0039C31'
 APP_KEY_VALUE = '84E5C11D9E3CD113A5E38AD6742F9C39'
-
-# READING_FREQ_IN_MIN = 5   # equals 20 mins
-READING_FREQ_IN_MIN = 1   # equals 4 mins
-# READING_FREQ_IN_MIN = 0.01   # 1  min
 
 def setup_adc():
     try:
