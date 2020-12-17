@@ -10,9 +10,10 @@ import binascii
 import struct
 import ubinascii
 import pycom
+import time
 
 # READING_FREQ_IN_MIN = 5   # equals 20 mins
-READING_FREQ_IN_MIN = 0.1   # equals 4 mins
+READING_FREQ_IN_MIN = 2   # equals 4 mins
 # READING_FREQ_IN_MIN = 0.01   # 1  min
 # package header, B: 1 byte for deviceID, I: 1 byte for int, 1 Byte for int
 CODE_VERSION = 1.6
@@ -78,6 +79,7 @@ def send_message(sensor_reading, battery_voltage):
     try:
 
         lora_socket.send(pkt)
+        time.sleep(3.0)
     except Exception as e:
         print(e)
     lora_socket.setblocking(False)
