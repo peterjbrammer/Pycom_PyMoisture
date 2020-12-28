@@ -24,6 +24,10 @@ SENSOR_100 = 720
 # LoRa constants
 APP_EUI_KEY = '70B3D57ED0039C31'
 APP_KEY_VALUE = '84E5C11D9E3CD113A5E38AD6742F9C39'
+# Lora ABP Parameters from TTN
+DEV_ADDR = '260413DA'
+NWK_SWKEY = '2452C176B65A070242275C0EDA26D54D'
+APP_SWKEY = 'D69C80D42F208F5D855060605F2C4F37'
 
 def setup_adc():
     try:
@@ -57,6 +61,15 @@ def setup_power_pin():
     power = machine.Pin('P19', machine.Pin.OUT)
     power.value(0)
     return power
+
+def join_via_abp(lora):
+    # create an ABP authentication params
+    dev_addr_in_bytes = struct.unpack(">l", binascii.unhexlify(DEV_ADDR))[0]
+    nwk_swkey_in_bytes = binascii.unhexlify(NWK_SWKEY)
+    app_swkey_in_bytes = binascii.unhexlify(APP_SWKEY)
+    # join a network using ABP (Activation By Personalization)
+    lora.join(activation=LoRa.ABP, auth=(dev_addr_in_bytes, nwk_swkey_in_bytes, app_swkey_in_bytes))
+
 
 def join_via_otaa(lora):
     app_eui = ubinascii.unhexlify(APP_EUI_KEY)
@@ -133,12 +146,12 @@ def main():
     pycom.rgbled(0x7f0000)
 
     if not lora.has_joined():
-        #  join_via_abp(lora)
         join_via_otaa(lora)
+        # join_via_abp(lora)
         while not lora.has_joined():
             utime.sleep(2.5)
             print('Not yet joined...')
-            if utime.time() > 150:
+            if utime.time() > 100:
                 print("Possible Timeout")
                 machine.reset()
             pass
