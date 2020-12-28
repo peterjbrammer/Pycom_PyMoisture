@@ -68,7 +68,7 @@ def join_via_otaa(lora):
 def create_lora_socket():
     lora_socket = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
     lora_socket.setsockopt(socket.SOL_LORA, socket.SO_DR, 5)
-    lora_socket.setblocking(True)
+    lora_socket.setblocking(False)
     lora_socket.settimeout(5)  # Set timeout to be 5 seconds
     return lora_socket
 
