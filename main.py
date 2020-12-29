@@ -83,7 +83,8 @@ def create_lora_socket():
     lora_socket = socket.socket(socket.AF_LORA, socket.SOCK_RAW)
     lora_socket.setsockopt(socket.SOL_LORA, socket.SO_DR, 5)
     lora_socket.setblocking(False)
-    lora_socket.settimeout(5)  # Set timeout to be 5 seconds
+    lora_socket.bind(1)
+    #  lora_socket.settimeout(5)  # Set timeout to be 5 seconds
     return lora_socket
 
 def send_message(sensor_reading, battery_voltage):
@@ -93,7 +94,7 @@ def send_message(sensor_reading, battery_voltage):
     try:
         print('sending message')
         lora_socket.send(pkt)
-        time.sleep(3.0)
+        time.sleep(5.0)
     except Exception as e:
         print(e)
     lora_socket.setblocking(False)
