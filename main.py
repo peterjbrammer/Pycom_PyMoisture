@@ -12,7 +12,7 @@ import ubinascii
 import pycom
 import time
 
-READING_FREQ_IN_MIN = 5   # equals 5 mins
+READING_FREQ_IN_MIN = 1   # equals 5 mins
 #  READING_FREQ_IN_MIN = 10   # equals 10 mins
 # READING_FREQ_IN_MIN = 0.01   # 1  min
 # package header, B: 1 byte for deviceID, I: 1 byte for int, 1 Byte for int
@@ -35,6 +35,7 @@ def setup_adc():
         adc.init(bits=12)
         sensor = adc.channel(pin='P13', attn=machine.ADC.ATTN_11DB)
     except Exception as e:
+        print('Exception Data Start')
         print(e)
     return sensor
 
@@ -86,11 +87,11 @@ def create_lora_socket():
     return lora_socket
 
 def send_message(sensor_reading, battery_voltage):
-    print('sending message')
+    print('Create Lora Socket')
     lora_socket = create_lora_socket()
     pkt = struct.pack(_LORA_PKG_FORMAT, DEVICE_ID, sensor_reading, battery_voltage)
     try:
-
+        print('sending message')
         lora_socket.send(pkt)
         time.sleep(3.0)
     except Exception as e:
