@@ -29,6 +29,9 @@ DEV_ADDR = '260413DA'
 NWK_SWKEY = '2452C176B65A070242275C0EDA26D54D'
 APP_SWKEY = 'D69C80D42F208F5D855060605F2C4F37'
 
+LORA_FREQUENCY = 916800000
+LORA_NODE_DR = 5
+
 def setup_adc():
     try:
         adc = machine.ADC()
@@ -139,6 +142,11 @@ def main():
     #intialize lora object
     print('Establish LoRa')
     lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.AU915)
+
+    # set the 3 default channels to the same frequency
+    lora.add_channel(0, frequency=LORA_FREQUENCY, dr_min=0, dr_max=5)
+    lora.add_channel(1, frequency=LORA_FREQUENCY, dr_min=0, dr_max=5)
+    lora.add_channel(2, frequency=LORA_FREQUENCY, dr_min=0, dr_max=5)
     # lora = setup_single_lora_channel(lora)
     lora.nvram_restore()
 
