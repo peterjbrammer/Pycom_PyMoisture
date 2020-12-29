@@ -12,11 +12,11 @@ import ubinascii
 import pycom
 import time
 
-# READING_FREQ_IN_MIN = 5   # equals 20 mins
-READING_FREQ_IN_MIN = 10   # equals 10 mins
+READING_FREQ_IN_MIN = 5   # equals 5 mins
+#  READING_FREQ_IN_MIN = 10   # equals 10 mins
 # READING_FREQ_IN_MIN = 0.01   # 1  min
 # package header, B: 1 byte for deviceID, I: 1 byte for int, 1 Byte for int
-CODE_VERSION = 1.6
+CODE_VERSION = 1.7
 _LORA_PKG_FORMAT = "BII"
 DEVICE_ID = 0x01
 # Max Value from Sensor when 100% wet
