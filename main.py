@@ -24,6 +24,7 @@ SENSOR_100 = 720
 # LoRa constants
 APP_EUI_KEY = '70B3D57ED0039C31'
 APP_KEY_VALUE = '5CE886DADE24274D77C89D014EEDD882'
+DEV_EUI_VALUE = '70B3D5499E84BD73'
 # Lora ABP Parameters from TTN
 DEV_ADDR = '260413DA'
 NWK_SWKEY = '2452C176B65A070242275C0EDA26D54D'
@@ -78,8 +79,15 @@ def join_via_abp(lora):
 def join_via_otaa(lora):
     app_eui = ubinascii.unhexlify(APP_EUI_KEY)
     app_key = ubinascii.unhexlify(APP_KEY_VALUE)
+    dev_eui = ubinascii.unhexlify(DEV_EUI_VALUE)
+    for i in range(0,8):
+        lora.remove_channel(i)
+    for i in range(16,65):
+        lora.remove_channel(i)
+    for i in range(66,72):
+        lora.remove_channel(i)
     # Join the network using OTAA Authentication
-    lora.join(activation=LoRa.OTAA, auth=(app_eui, app_key), timeout=0)
+    lora.join(activation=LoRa.OTAA, auth=(dev_eui, app_eui, app_key), timeout=0)
 
 
 def create_lora_socket():
