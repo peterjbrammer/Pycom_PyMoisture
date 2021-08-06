@@ -2,6 +2,7 @@ from network import LoRa
 import socket
 import time
 import ubinascii
+import config
 
 # Initialise LoRa in LORAWAN mode.
 # Please pick the region that matches where you are using the device:
@@ -12,10 +13,10 @@ import ubinascii
 lora = LoRa(mode=LoRa.LORAWAN, region=LoRa.AU915)
 
 # create an OTAA authentication parameters, change them to the provided credentials
-app_eui = ubinascii.unhexlify('70B3D57ED0039C31')
-app_key = ubinascii.unhexlify('5CE886DADE24274D77C89D014EEDD882')
+app_eui = ubinascii.unhexlify(config.APP_EUI_KEY)
+app_key = ubinascii.unhexlify(config.APP_KEY_VALUE)
 #uncomment to use LoRaWAN application provided dev_eui
-dev_eui = ubinascii.unhexlify('70B3D5499E84BD73')
+dev_eui = ubinascii.unhexlify(config.DEV_EUI_VALUE)
 
 # Uncomment for US915 / AU915 & Pygate
 for i in range(0,8):
