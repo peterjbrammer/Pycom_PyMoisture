@@ -1,2 +1,4 @@
 # Ignoring config.py as it contains secrets
 config.py
+# Ignoring PyMoisture/pybytes_config.json.txt as it contains secrets
+PyMoisture/pybytes_config.json.txt
